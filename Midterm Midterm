@@ -1,0 +1,37 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+##TASK2
+df=pd.read_csv("companies.csv")  #because of technical issue i renamed file companies
+
+#1Find out how many companies do not filled-in the date of inclusion (column“included”) to S&P 500.
+inclusion=(df["included"])
+counter=0
+#for i in inclusion:
+#   print(i)
+#   if len(str(i))<10:  #since data format is 10 strings long i figured ths would be a way to find nan values
+#    counter+=1
+#print(counter) #ANSWER : 47
+
+#2.delete companeis whose included==nan , avg age of constiuent in sample if you need assumptions comment on them in code
+#which company is odest younget 
+newdf=df.dropna(subset="included")
+print(newdf.columns)
+#Constituent analysis , I assume I am supposed to analyse when they were included  rather then when they were founded
+age=newdf['included']
+
+
+#3.. Describe the distribution of companies across sectors and create a plot that
+#demonstrates the proportionality of the sectors (i.e. pie plot, or something like
+#this)
+sectors=newdf.groupby("GICS_Sector").size()
+sectors.plot.pie(figsize=(4,4))
+plt.show()
+
+#4.Parse the “hq” column, extract the state of the hq and describe the distribution
+#of the states 
+print(newdf['hq'].str.split().str[0])
+states=newdf.groupby("hq").size()
+print(states)
+
